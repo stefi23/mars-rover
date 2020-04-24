@@ -55,3 +55,11 @@ MMRMMRMRRM
 1 3 N
 
 5 1 E
+
+### Install and Test
+
+```
+$ git clone https://github.com/stefi23/mars-rover.git
+$ cd mars-rover
+$ node mars-rover.js
+```

@@ -30,9 +30,9 @@ const main = async () => {
     "Specify the initial coordinates and orientation of the mars rover (e.g. 1 2 N):"
   );
 
-  if (!isMarsPositionCorrect(roverPositionAndOrientation)) return rl.close();
+  if (!isMarsPositionCorrect(roverPositionAndDirection)) return rl.close();
 
-  let roverPosition = roverPositionAndOrientation.split(" ");
+  let roverPosition = roverPositionAndDirection.split(" ");
 
   if (!isRoverPositionCorrect(roverPosition, plateau)) return rl.close();
 
@@ -141,7 +141,8 @@ function moveRover(rover, directions, plateau) {
   ) {
     console.log("The rover left Mars. Congratulations!");
   } else {
-    console.log(`The rover ended in: x: ${rover.x} y: ${rover.y}`);
+    // console.log(`The rover ended in: x: ${rover.x} y: ${rover.y}`);
+    console.log(`${rover.x} ${rover.y} ${rover.orientation}`);
   }
 }
 
