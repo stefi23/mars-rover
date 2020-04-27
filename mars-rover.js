@@ -18,10 +18,10 @@ const main = async () => {
     "Specify the size of the Mars plateau (e.g. 5 5):"
   );
 
-  if (!arePlateauCoordinatesCorrect(platauCoordinates)) return rl.close();
+  if (!arePlatauCoordinatesValid(platauCoordinates)) return rl.close();
   let responsePlateau = platauCoordinates.split(" ");
 
-  let plateau = {
+  const plateau = {
     x: parseInt(responsePlateau[0]),
     y: parseInt(responsePlateau[1]),
   };
@@ -30,17 +30,23 @@ const main = async () => {
     "Specify the initial coordinates and orientation of the mars rover (e.g. 1 2 N):"
   );
 
-  if (!isMarsPositionCorrect(roverPositionAndDirection)) return rl.close();
+  if (!isRoverPositionAndDirectionValid(roverPositionAndDirection)) {
+    return rl.close();
+  }
 
-  let roverPosition = roverPositionAndDirection.split(" ");
+  const roverPosition = roverPositionAndDirection.split(" ");
 
-  if (!isRoverPositionCorrect(roverPosition, plateau)) return rl.close();
+  if (!isRoverPositionOnMars(roverPosition, plateau)) {
+    return rl.close();
+  }
 
-  let roverOrientation = roverPosition[2].toUpperCase();
+  const roverOrientation = roverPosition[2].toUpperCase();
 
-  if (!isRoverOrientationCorrect(roverOrientation)) return rl.close();
+  if (!isRoverOrientationValid(roverOrientation)) {
+    return rl.close();
+  }
 
-  let rover = {
+  const rover = {
     x: parseInt(roverPosition[0]),
     y: parseInt(roverPosition[1]),
     orientation: roverPosition[2],
@@ -50,7 +56,9 @@ const main = async () => {
     "Specify the instructions for the mars rover (e.g. LMLMLMLMM):"
   );
 
-  if (!areDirectionCorrect(directions)) return rl.close();
+  if (!areDirectionCorrect(directions)) {
+    return rl.close();
+  }
 
   moveRover(rover, directions, plateau);
 
@@ -109,17 +117,19 @@ function moveRoverForward(rover) {
       rover.x--;
       break;
   }
-  // console.log(
-  //   `The rover moved forward and is now in:\n x: ${rover.x} \n y: ${rover.y}`
-  // );
+  /*
+  console.log(
+    `The rover moved forward and is now in:\n x: ${rover.x} \n y: ${rover.y}`
+  );
   let newPosition = { x: rover.x, y: rover.y };
-  // console.log(newPosition);
+  console.log(newPosition);
+  */
 }
 
 function moveRover(rover, directions, plateau) {
   /* Uses the supplied operations and moves the rover according to the string of operations. */
-  for (let i = 0; i < directions.length; i++) {
-    let orientation = directions[i];
+
+  for (const orientation of directions) {
     switch (orientation) {
       case "L":
         turnRoverLeft(rover);
@@ -146,8 +156,8 @@ function moveRover(rover, directions, plateau) {
   }
 }
 
-function arePlateauCoordinatesCorrect(input) {
-  let regexX = /^(\d+ \d+)/;
+function arePlatauCoordinatesValid(input) {
+  let regexX = /^\d+ \d+$/;
   if (!regexX.test(input)) {
     console.log("Wrong plateau coordindates entered");
     return false;
@@ -155,8 +165,8 @@ function arePlateauCoordinatesCorrect(input) {
   return true;
 }
 
-function isMarsPositionCorrect(input) {
-  let regexY = /^(\d+ \d+ \w{1})/;
+function isRoverPositionAndDirectionValid(input) {
+  let regexY = /^\d+ \d+ \w$/;
   if (!regexY.test(input)) {
     console.log("The position given for the Rover is incorrect");
     return false;
@@ -164,7 +174,7 @@ function isMarsPositionCorrect(input) {
   return true;
 }
 
-function isRoverPositionCorrect(input, plateau) {
+function isRoverPositionOnMars(input, plateau) {
   if (
     parseInt(input[0]) < 0 ||
     parseInt(input[0]) > plateau.x ||
@@ -177,7 +187,7 @@ function isRoverPositionCorrect(input, plateau) {
   return true;
 }
 
-function isRoverOrientationCorrect(roverOrientation) {
+function isRoverOrientationValid(roverOrientation) {
   if (
     roverOrientation !== "N" &&
     roverOrientation !== "S" &&
