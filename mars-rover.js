@@ -18,7 +18,9 @@ const main = async () => {
     "Specify the size of the Mars plateau (e.g. 5 5):"
   );
 
-  if (!arePlatauCoordinatesValid(platauCoordinates)) return rl.close();
+  if (!arePlatauCoordinatesValid(platauCoordinates)) {
+    return rl.close();
+  }
   let responsePlateau = platauCoordinates.split(" ");
 
   const plateau = {
